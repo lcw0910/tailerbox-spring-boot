@@ -1,6 +1,7 @@
 package com.tutorial.tailerbox.data.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,11 +9,14 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 @Entity
 @Table(name = "users")
-@Getter
+@Getter(AccessLevel.PUBLIC)
 @Setter
 @NoArgsConstructor
 public class User {
@@ -25,9 +29,12 @@ public class User {
     @Column(name = "user_id", nullable = false, length = 20)
     private String userId;
 
+    @NotNull
+    @NotBlank
     @Column(name = "user_name", nullable = false, length = 45)
     private String userName;
 
+    @Email
     @Column(name = "email", nullable = false, length = 100)
     private String email;
 
