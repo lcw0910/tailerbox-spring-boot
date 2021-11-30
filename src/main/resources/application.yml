@@ -4,3 +4,12 @@ spring:
     url: jdbc:mariadb://localhost:3306/tailerbox
     username: root
     password: root
+
+server:
+  error:
+    include-binding-errors: never
+    include-exception: false # Response 에 Exception 표시 유무
+    include-message: never # Response 에 Exception Message 표시 유무
+    include-stacktrace: never # REsponse 에 Stack Trace 표시 유무
+    whitelabel:
+      enabled: false # 에러 발생 시 Spring 기본 에러메시지 노출 여부
