@@ -2,6 +2,8 @@ package com.tutorial.tailerbox.data.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tutorial.tailerbox.data.entity.User;
+import com.tutorial.tailerbox.data.validator.OnCreate;
+import com.tutorial.tailerbox.data.validator.OnUpdate;
 import lombok.*;
 
 
@@ -15,18 +17,19 @@ import java.sql.Timestamp;
 @Builder(access = AccessLevel.PUBLIC)
 public class UserDto {
 
-    @NotNull
+    @NotNull(groups = OnUpdate.class)
+    @Null
     @Min(value = 1, message = "100을 넘어야된다.")
     @Max(value = 5)
     private Long id;
 
-    @NotNull
+    @NotNull(groups = OnCreate.class)
     private String userId;
 
     @NotNull
     private String userName;
 
-    @NotNull
+    @NotNull(groups = OnCreate.class)
     @NotEmpty
     @Email
     private String email;

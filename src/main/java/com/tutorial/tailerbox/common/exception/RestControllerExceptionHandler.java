@@ -7,9 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
@@ -32,7 +34,25 @@ public class RestControllerExceptionHandler {
 
     @ExceptionHandler(value = {ConstraintViolationException.class})
     protected ResponseEntity handleConstraintViolation(ConstraintViolationException e) {
-        return ResponseEntity.ok("opk");
+        log.error(e.getMessage());
+        return ResponseEntity.unprocessableEntity().body(e.getLocalizedMessage());
+    }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    protected ResponseEntity missingServletRequestParameterExceptionHandler(
+            MissingServletRequestParameterException e
+    ) {
+        return ResponseEntity.unprocessableEntity().body(e.getLocalizedMessage());
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    protected ResponseEntity methodArgumentTypeMismatchExceptionHandler(
+            MethodArgumentTypeMismatchException e
+    ) {
+        log.error(e.getMessage());
+        String errorCode = e.getErrorCode();
+
+        return ResponseEntity.unprocessableEntity().body(e.getLocalizedMessage());
     }
 
     @ExceptionHandler(BindException.class)
@@ -51,7 +71,8 @@ public class RestControllerExceptionHandler {
 //            log.error("DefaultMessage : {}", error.getDefaultMessage());
 //            errors.add(error.getDefaultMessage());
             List<String> splitErrors = Arrays.asList(error.getDefaultMessage().split(";"));
-            errors.add(splitErrors.get(0));
+//            errors.add(splitErrors.get(0));
+            errors.add(error.getField() + ':' + error.getDefaultMessage());
         });
         ArrayList<String> errorMessages = new ArrayList<>();
         return ResponseEntity

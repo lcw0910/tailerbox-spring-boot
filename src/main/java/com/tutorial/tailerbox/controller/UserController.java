@@ -2,6 +2,7 @@ package com.tutorial.tailerbox.controller;
 
 import com.tutorial.tailerbox.data.dto.UserDto;
 import com.tutorial.tailerbox.data.entity.User;
+import com.tutorial.tailerbox.data.validator.OnCreate;
 import com.tutorial.tailerbox.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,11 +17,13 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import java.util.List;
 
-//@Validated
+@Validated
 @RestController
+@RequestMapping(name = "users", value = "users")
 public class UserController {
 
     UserService userService;
@@ -30,13 +33,20 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/users")
+    @GetMapping(value = "test")
+    public ResponseEntity test(
+            @Valid UserDto userDto
+    ) {
+        return ResponseEntity.ok(userDto);
+    }
+
+    @GetMapping
     public ResponseEntity getUsers(
 //            Pageable pageable,
 //            UserDto userDto,
 //            BindingResult bindingResult,
-//            @RequestParam(value = "email") @Email @Nullable String email,
-            @Valid @RequestParam(value = "id") @Min(50) @Nullable Integer id
+            @RequestParam(value = "email") @Email @Nullable String email,
+            @RequestParam(value = "id") @Min(2) Long id
     ) {
 
 //        List<ObjectError> errors = bindingResult.getAllErrors();
@@ -46,14 +56,19 @@ public class UserController {
 //        Page<User> userList = userService.searchUser(pageable);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body("userList");
-
+                .body("userList : " + id);
+    }
+    @GetMapping(
+            value = "{id}"
+    )
+    public ResponseEntity getUser(@PathVariable(value = "id") Long id) {
+        return ResponseEntity.ok("userId : " + id);
     }
 
-    @Valid
-    @PostMapping(value = "/user")
+    @Validated(value = OnCreate.class)
+    @PostMapping
     public ResponseEntity createUser(
-            @RequestBody UserDto userDto,
+            @RequestBody @Valid UserDto userDto,
             BindingResult bindingResult
             ) {
 

@@ -5,8 +5,3 @@ spring:
     username: cwlee02
     password: secret
 
-#  data:
-#    web:
-#      pageable:
-#        one-indexed-parameters: on
-#        default-page-size: 20
