@@ -1,7 +1,7 @@
 package com.tutorial.tailerbox.data.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.tutorial.tailerbox.data.dto.UserDto;
+import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -10,6 +10,9 @@ import java.sql.Timestamp;
 @Entity
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +34,24 @@ public class User {
     @Column(name = "deleted_at")
     private Timestamp deletedAt;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(
+            name = "created_at",
+            nullable = false,
+            updatable = false,
+            insertable = false,
+            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+    )
     private Timestamp createdAt;
+
+    public UserDto toDto() {
+        return UserDto.builder()
+                .id(id)
+                .userId(userId)
+                .userName(userName)
+                .email(email)
+                .updatedAt(updatedAt)
+                .createdAt(createdAt)
+                .deletedAt(deletedAt)
+                .build();
+    }
 }

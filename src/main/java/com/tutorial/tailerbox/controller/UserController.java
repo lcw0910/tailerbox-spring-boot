@@ -1,55 +1,75 @@
 package com.tutorial.tailerbox.controller;
 
-import com.tutorial.tailerbox.common.message.Message;
 import com.tutorial.tailerbox.data.dto.UserDto;
-import org.springframework.http.HttpHeaders;
+import com.tutorial.tailerbox.data.entity.User;
+import com.tutorial.tailerbox.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import java.util.List;
 
-@Validated
+//@Validated
 @RestController
 public class UserController {
 
+    UserService userService;
+
+    @Autowired
+    UserController(UserService userService) {
+        this.userService = userService;
+    }
+
     @GetMapping(value = "/users")
-    public ResponseEntity<Message> getUsers(
-            @Valid
-            @RequestParam(value = "id", required = false)
-            @Min(1)
-            @Max(3) Long id
+    public ResponseEntity getUsers(
+//            Pageable pageable,
+//            UserDto userDto,
+//            BindingResult bindingResult,
+//            @RequestParam(value = "email") @Email @Nullable String email,
+            @Valid @RequestParam(value = "id") @Min(50) @Nullable Integer id
     ) {
 
-        // Set User Data
-        UserDto userDto = new UserDto();
-        userDto.setUserId("dennis01");
-        userDto.setUserName("dennis lee");
-        userDto.setEmail("dennis01@tailerbox.com");
-        userDto.setId(id);
+//        List<ObjectError> errors = bindingResult.getAllErrors();
+//        List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+//        List<ObjectError> objectErrors = bindingResult.getGlobalErrors();
 
-        // Set Response Message
-        Message message = Message.builder()
-                .status(HttpStatus.OK)
-                .message("SUCCESS")
-                .data(userDto)
-                .build();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Content-Type", "application/json");
-        headers.set("foo", "bar");
-
-        String className = getClass().getName();
-//        String className = this.getClass().getName();
-
+//        Page<User> userList = userService.searchUser(pageable);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .headers(headers)
-                .body(message);
+                .body("userList");
+
+    }
+
+    @Valid
+    @PostMapping(value = "/user")
+    public ResponseEntity createUser(
+            @RequestBody UserDto userDto,
+            BindingResult bindingResult
+            ) {
+
+//        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        /*UserDto userDto = UserDto.builder()
+                .userId("test")
+                .userName("test")
+                .email("test")
+//                .createdAt(timestamp)
+                .build();*/
+
+        List<ObjectError> errors = bindingResult.getAllErrors();
+        List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+        List<ObjectError> objectErrors = bindingResult.getGlobalErrors();
+        UserDto result = userService.createUser(userDto);
+        return ResponseEntity.ok(result);
     }
 }
