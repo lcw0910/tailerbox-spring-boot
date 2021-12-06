@@ -31,7 +31,7 @@ public class DateFormatConfiguration {
     public PageableHandlerMethodArgumentResolverCustomizer customizer() {
         return pageableResolver -> {
             pageableResolver.setOneIndexedParameters(true);
-            pageableResolver.setMaxPageSize(3);
+            pageableResolver.setMaxPageSize(50);
         };
     }
 

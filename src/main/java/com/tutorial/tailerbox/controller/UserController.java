@@ -33,44 +33,12 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "test")
-    public ResponseEntity test(
-            @Valid UserDto userDto
-    ) {
-        return ResponseEntity.ok(userDto);
-    }
-
-    @GetMapping
-    public ResponseEntity getUsers(
-//            Pageable pageable,
-//            UserDto userDto,
-//            BindingResult bindingResult,
-            @RequestParam(value = "email") @Email @Nullable String email,
-            @RequestParam(value = "id") @Min(2) Long id
-    ) {
-
-//        List<ObjectError> errors = bindingResult.getAllErrors();
-//        List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-//        List<ObjectError> objectErrors = bindingResult.getGlobalErrors();
-
-//        Page<User> userList = userService.searchUser(pageable);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body("userList : " + id);
-    }
-    @GetMapping(
-            value = "{id}"
-    )
-    public ResponseEntity getUser(@PathVariable(value = "id") Long id) {
-        return ResponseEntity.ok("userId : " + id);
-    }
-
     @Validated(value = OnCreate.class)
     @PostMapping
     public ResponseEntity createUser(
             @RequestBody @Valid UserDto userDto,
             BindingResult bindingResult
-            ) {
+    ) {
 
 //        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
@@ -87,4 +55,38 @@ public class UserController {
         UserDto result = userService.createUser(userDto);
         return ResponseEntity.ok(result);
     }
+
+    @GetMapping
+    public UserDto.Response getUsers(
+            Pageable pageable,
+//            UserDto userDto,
+//            BindingResult bindingResult,
+            @RequestParam(value = "id") @Min(1) @Nullable Long id,
+            @RequestParam(value = "userId") @Email @Nullable String userId,
+            @RequestParam(value = "userName") @Email @Nullable String userName,
+            @RequestParam(value = "email") @Email @Nullable String email
+    ) {
+
+//        List<ObjectError> errors = bindingResult.getAllErrors();
+//        List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+//        List<ObjectError> objectErrors = bindingResult.getGlobalErrors();
+//        Pageable pageable = new Page
+        Page<User> userList = userService.searchUser(pageable);
+
+//        ApiResponse response = new ApiResponse.builder().build();
+
+        return new UserDto.Response(HttpStatus.OK, "Success", pageable);
+/*
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(userList);
+*/
+    }
+    @GetMapping(
+            value = "{id}"
+    )
+    public ResponseEntity getUser(@PathVariable(value = "id") Long id) {
+        return ResponseEntity.ok("userId : " + id);
+    }
+
 }

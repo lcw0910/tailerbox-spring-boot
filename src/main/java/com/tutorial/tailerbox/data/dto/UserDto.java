@@ -5,6 +5,8 @@ import com.tutorial.tailerbox.data.entity.User;
 import com.tutorial.tailerbox.data.validator.OnCreate;
 import com.tutorial.tailerbox.data.validator.OnUpdate;
 import lombok.*;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 
 
 import javax.validation.constraints.*;
@@ -51,5 +53,17 @@ public class UserDto {
                 .createdAt(createdAt)
                 .deletedAt(deletedAt)
                 .build();
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class Response {
+        private HttpStatus status;
+        private String message;
+        private Pageable pageable;
+
+        public int getStatus() {
+            return status.value();
+        }
     }
 }
