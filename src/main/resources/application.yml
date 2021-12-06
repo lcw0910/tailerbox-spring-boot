@@ -2,5 +2,9 @@ spring:
 
   datasource:
     url: jdbc:mariadb://localhost:3306/tailerbox
-    username: root
-    password: root
+    username: cwlee02
+    password: secret
+
+mybatis:
+  config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:/mybatis/**/*Mapper.xml
