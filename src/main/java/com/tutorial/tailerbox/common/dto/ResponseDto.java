@@ -1,42 +1,29 @@
 package com.tutorial.tailerbox.common.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+public class ResponseDto<T, ArrayList> {
 
-import java.awt.print.Pageable;
+    /*
+    * Created
+    * - Header
+    *   - status : 200
+    * - Body
+    *   - DTO (contain insert_id)
+    *
+    * */
 
-public class ResponseDto {
+    /*
+    * Find Many
+    * - status 200
+    * - Body
+    *   - data
+    *   - paginate
+    *
+    *
+    * */
+//    FInd Many
 
-    @Getter
-    @AllArgsConstructor
-    public static class Create<T> {
-        private int id;
-        private T data;
-        private String message;
-    }
+//    Find One
+//    Updated
+//    Deleted
 
-    @Getter
-    @AllArgsConstructor
-    public static class FindOne<T> {
-        private T data;
-    }
-
-    @Getter
-    @AllArgsConstructor
-    public static class FindMany<T> {
-        private T data;
-    }
-
-    @Getter
-    @AllArgsConstructor
-    public static class Update<T> {
-        private Long affected;
-        private T data;
-    }
-
-    @Getter
-    @AllArgsConstructor
-    public static class Delete {
-        private Long affected;
-    }
 }

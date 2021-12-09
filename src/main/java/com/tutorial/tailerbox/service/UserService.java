@@ -1,5 +1,6 @@
 package com.tutorial.tailerbox.service;
 
+import com.tutorial.tailerbox.data.dto.UserDto;
 import com.tutorial.tailerbox.data.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,10 @@ public class UserService {
 
     public UserService(UserMapper userMapper) {
         this.userMapper = userMapper;
+    }
+
+    public Long insertUser(UserDto userDto) {
+        return userMapper.insertUser(userDto);
     }
 
     public ArrayList<HashMap<String, Object>> findAll() {

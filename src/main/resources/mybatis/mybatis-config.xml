@@ -6,6 +6,7 @@
 
     <settings>
         <setting name="cacheEnabled" value="true"/>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
         <!--        <setting name="lazyLoadingEnabled" value="true"/>-->
         <!--        <setting name="multipleResultSetsEnabled" value="true"/>-->
         <!--        <setting name="useColumnLabel" value="true"/>-->
@@ -22,8 +23,8 @@
         <!--        <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>-->
     </settings>
 
-    <!--    <typeAliases>-->
-    <!--        <package name="com.promartians.gss.backend.buyer.dto"/>-->
-    <!--    </typeAliases>-->
+    <typeAliases>
+        <package name="com.tutorial.tailerbox.data.dto"/>
+    </typeAliases>
 
 </configuration>
