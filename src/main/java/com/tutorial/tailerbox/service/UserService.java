@@ -16,8 +16,9 @@ public class UserService {
         this.userMapper = userMapper;
     }
 
-    public Long insertUser(UserDto userDto) {
-        return userMapper.insertUser(userDto);
+    public UserDto insertUser(UserDto userDto) {
+        userMapper.insertUser(userDto);
+        return userDto;
     }
 
     public ArrayList<HashMap<String, Object>> findAll() {

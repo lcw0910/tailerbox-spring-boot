@@ -3,12 +3,18 @@ spring:
     name: tailerbox
   profiles:
     active: local
+  jackson:
+    property-naming-strategy: SNAKE_CASE
 
 mybatis:
   config-location: classpath:mybatis/mybatis-config.xml
   mapper-locations: classpath:mybatis/mapper/**/*-mapper.xml
 #  configuration:
 #    map-underscore-to-camel-case: true
+
+routes:
+  api-version: 1
+  api-base-uri: /api/v${routes.api-version}
 
 pagehelper:
   auto-dialect: true
