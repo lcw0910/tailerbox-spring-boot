@@ -1,6 +1,29 @@
 spring:
+  application:
+    name: tailerbox
+  profiles:
+    active: local
+  jackson:
+    property-naming-strategy: SNAKE_CASE
 
-  datasource:
-    url: jdbc:mariadb://localhost:3306/tailerbox
-    username: root
-    password: root
+#mybatis:
+#  config-location: classpath:mybatis/mybatis-config.xml
+#  mapper-locations: classpath:mybatis/mapper/**/*-mapper.xml
+
+#  configuration:
+#    map-underscore-to-camel-case: true
+
+#routes:
+#  api-version: v1
+#  api-base-uri: /api/${routes.api-version}
+
+#pagehelper:
+#  auto-dialect: true
+#  helper-dialect: mariadb
+#  page-size-zero: false
+#  reasonable: true
+#  offset-as-page-num: false
+#  row-bounds-with-count: false
+#  auto-runtime-dialect: false
+#  close-conn: true
+#  default-count: true
